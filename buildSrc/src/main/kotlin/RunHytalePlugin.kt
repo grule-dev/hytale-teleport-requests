@@ -25,10 +25,11 @@ open class RunHytalePlugin : Plugin<Project> {
 
         // Register the runServer task
         val runTask: TaskProvider<RunServerTask> = project.tasks.register(
-            "runServer", 
+            "runServer",
             RunServerTask::class.java
         ) {
             jarUrl.set(extension.jarUrl)
+            assetsPath.set(extension.assetsPath)
             group = "hytale"
             description = "Downloads and runs the Hytale server with your plugin"
         }
@@ -47,6 +48,7 @@ open class RunHytalePlugin : Plugin<Project> {
  */
 open class RunHytaleExtension {
     var jarUrl: String = "https://example.com/hytale-server.jar"
+    var assetsPath: String? = null
 }
 
 /**
@@ -57,11 +59,15 @@ open class RunServerTask : DefaultTask() {
     @Input
     val jarUrl = project.objects.property(String::class.java)
 
+    @Input
+    @org.gradle.api.tasks.Optional
+    val assetsPath = project.objects.property(String::class.java)
+
     @TaskAction
     fun run() {
         // Create directories
         val runDir = File(project.projectDir, "run").apply { mkdirs() }
-        val pluginsDir = File(runDir, "plugins").apply { mkdirs() }
+        val pluginsDir = File(runDir, "mods").apply { mkdirs() }
         val jarFile = File(runDir, "server.jar")
 
         // Cache directory for downloaded server JARs
@@ -121,6 +127,18 @@ open class RunServerTask : DefaultTask() {
         }
         
         javaArgs.addAll(listOf("-jar", jarFile.name))
+        javaArgs.addAll(listOf("--bind", "0.0.0.0:5000"))
+
+        // Add assets path if configured
+        if (assetsPath.isPresent) {
+            val assets = File(assetsPath.get())
+            if (assets.exists()) {
+                javaArgs.addAll(listOf("--assets", assets.absolutePath))
+                println("Using assets: ${assets.absolutePath}")
+            } else {
+                println("WARNING: Assets file not found: ${assetsPath.get()}")
+            }
+        }
 
         // Start the server process
         val process = ProcessBuilder("java", *javaArgs.toTypedArray())

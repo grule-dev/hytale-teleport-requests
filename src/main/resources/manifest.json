@@ -1,19 +1,20 @@
 {
-  "Group": "TemplatePlugin",
-  "Name": "TemplatePlugin",
+  "Group": "Grule",
+  "Name": "TeleportRequests",
   "Version": "1.0.0",
-  "Description": "A Hytale plugin template",
+  "Description": "A Hytale mod to requests teleports.",
   "Authors": [
     {
-      "Name": "YourName",
+      "Name": "Grule",
       "Email": "your.email@example.com",
-      "Url": "https://your-website.com"
+      "Url": "https://github.com/grule-dev"
     }
   ],
-  "Website": "https://github.com/yourusername/hytale-plugin-template",
-  "Main": "com.example.templateplugin.TemplatePlugin",
+  "Website": "https://github.com/grule-dev/hytale-teleport-requests",
+  "Main": "com.github.grule.teleportrequests.TeleportRequests",
   "ServerVersion": "*",
   "Dependencies": {},
   "OptionalDependencies": {},
+  "IncludesAssetPack": true,
   "DisabledByDefault": false
 }
