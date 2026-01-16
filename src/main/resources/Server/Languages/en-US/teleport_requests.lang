@@ -15,7 +15,7 @@ commands.tpaccept.args.requesterPlayer=The player whose teleport request to acce
 commands.tpaccept.none=You have no pending teleport requests
 commands.tpaccept.success.target=You accepted the teleport request from {username}
 commands.tpaccept.success.requester=You have been teleported to {username}
-commands.tpaccept.success.tphere_requester={username} accepted your teleport request
+commands.tpaccept.success.tphere_requester={username} has been teleported to you
 commands.tpaccept.failed=Something failed when running the command. Try again later
 
 commands.tpcancel.desc=Decline a pending teleport request to you
