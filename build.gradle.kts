@@ -62,7 +62,7 @@ tasks {
         archiveClassifier.set("")
         
         // Relocate dependencies to avoid conflicts
-        relocate("com.google.gson", "com.yourplugin.libs.gson")
+        relocate("com.google.gson", "com.github.grule.teleportrequests.libs.gson")
         
         // Minimize JAR size (removes unused classes)
         minimize()
