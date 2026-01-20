@@ -1,12 +1,13 @@
 commands.tpa.desc=Make a teleport request to a player
 commands.tpa.args.targetPlayer=The player to teleport to
-commands.tpa.target={username} wants to teleport to your location. Type /tpaccept {username} to accept, or /tpcancel {username} to cancel
+commands.tpa.target={username} wants to teleport to your location. Type /tpaccept {username} to accept, or /tpcancel {username} to cancel. You have {seconds} seconds to accept
 commands.tpa.requester=Teleport request sent to {username}
 commands.tpa.self=You cannot send a teleport request to yourself
+commands.tpa.already_pending=You already have a pending teleport request
 
 commands.tphere.desc=Request a player to teleport to you
 commands.tphere.args.targetPlayer=The player to teleport to you
-commands.tphere.target={username} wants you to teleport to their location. Type /tpaccept {username} to accept, or /tpcancel {username} to cancel
+commands.tphere.target={username} wants you to teleport to their location. Type /tpaccept {username} to accept, or /tpcancel {username} to cancel. You have {seconds} seconds to accept
 commands.tphere.requester=Teleport request sent to {username}
 commands.tphere.self=You cannot request yourself to teleport to you
 

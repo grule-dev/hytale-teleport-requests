@@ -18,12 +18,13 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.UUID;
 
 public class CancelTeleportCommand extends AbstractPlayerCommand {
-    private static final Message MESSAGE_NO_PENDING_REQUEST = Message.translation("teleport_requests.commands.tpcancel.none");
-    private static final Message MESSAGE_REQUEST_CANCELLED_TARGET = Message.translation("teleport_requests.commands.tpcancel.success.target");
-    private static final Message MESSAGE_REQUEST_CANCELLED_REQUESTER = Message.translation("teleport_requests.commands.tpcancel.success.requester");
+    private static final Message MESSAGE_NO_PENDING_REQUEST = Message.translation("teleport_requests.commands.tpcancel.none").color(new Color(0xff3333));
+    private static final Message MESSAGE_REQUEST_CANCELLED_TARGET = Message.translation("teleport_requests.commands.tpcancel.success.target").color(Color.YELLOW);
+    private static final Message MESSAGE_REQUEST_CANCELLED_REQUESTER = Message.translation("teleport_requests.commands.tpcancel.success.requester").color(Color.YELLOW);
 
     @Nonnull
     private final OptionalArg<PlayerRef> requesterPlayerArg;

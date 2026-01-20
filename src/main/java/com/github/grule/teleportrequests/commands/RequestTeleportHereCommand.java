@@ -16,11 +16,13 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import java.awt.*;
 
 public class RequestTeleportHereCommand extends AbstractPlayerCommand {
-    private static final Message MESSAGE_COMMANDS_TELEPORT_REQUEST = Message.translation("teleport_requests.commands.tphere.target");
-    private static final Message MESSAGE_COMMANDS_TELEPORT_REQUEST_SENT = Message.translation("teleport_requests.commands.tphere.requester");
-    private static final Message MESSAGE_COMMANDS_TELEPORT_CANNOT_REQUEST_SELF = Message.translation("teleport_requests.commands.tphere.self");
+    private static final Message MESSAGE_COMMANDS_TELEPORT_REQUEST = Message.translation("teleport_requests.commands.tphere.target").color(Color.YELLOW);
+    private static final Message MESSAGE_COMMANDS_TELEPORT_REQUEST_SENT = Message.translation("teleport_requests.commands.tphere.requester").color(Color.YELLOW);
+    private static final Message MESSAGE_COMMANDS_TELEPORT_CANNOT_REQUEST_SELF = Message.translation("teleport_requests.commands.tphere.self").color(new Color(0xff3333));
+    private static final Message MESSAGE_COMMANDS_TELEPORT_ALREADY_PENDING = Message.translation("teleport_requests.commands.tpa.already_pending").color(new Color(0xff3333));
 
     @Nonnull
     private final RequiredArg<PlayerRef> targetPlayerArg;
@@ -28,10 +30,10 @@ public class RequestTeleportHereCommand extends AbstractPlayerCommand {
     private final TeleportRequests plugin;
 
     public RequestTeleportHereCommand() {
-        super("tphere", "teleport_requests.commands.tphere.desc");
+        super("tpahere", "teleport_requests.commands.tphere.desc");
         this.plugin = TeleportRequests.get();
         this.setPermissionGroup(GameMode.Adventure);
-        this.addAliases("tph");
+        this.addAliases("tph", "tphere");
 
         this.targetPlayerArg = this.withRequiredArg("targetPlayer", "teleport_requests.commands.tphere.args.targetPlayer", ArgTypes.PLAYER_REF);
     }
@@ -50,9 +52,12 @@ public class RequestTeleportHereCommand extends AbstractPlayerCommand {
             return;
         }
 
-        plugin.addTeleportRequest(playerRef.getUuid(), targetPlayerRef.getUuid(), TeleportRequest.Type.TELEPORT_HERE);
+        if (!plugin.addTeleportRequest(playerRef.getUuid(), targetPlayerRef.getUuid(), TeleportRequest.Type.TELEPORT_HERE)) {
+            playerRef.sendMessage(MESSAGE_COMMANDS_TELEPORT_ALREADY_PENDING);
+            return;
+        }
 
-        targetPlayerRef.sendMessage(MESSAGE_COMMANDS_TELEPORT_REQUEST.param("username", playerRef.getUsername()));
+        targetPlayerRef.sendMessage(MESSAGE_COMMANDS_TELEPORT_REQUEST.param("username", playerRef.getUsername()).param("seconds", TeleportRequests.REQUEST_TIMEOUT_SECONDS));
         playerRef.sendMessage(MESSAGE_COMMANDS_TELEPORT_REQUEST_SENT.param("username", targetPlayerRef.getUsername()));
     }
 }

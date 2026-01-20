@@ -18,15 +18,16 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.UUID;
 
 public class AcceptTeleportCommand extends AbstractPlayerCommand {
 
-    private static final Message MESSAGE_NO_PENDING_REQUEST = Message.translation("teleport_requests.commands.tpaccept.none");
-    private static final Message MESSAGE_TELEPORT_ACCEPTED = Message.translation("teleport_requests.commands.tpaccept.success.target");
-    private static final Message MESSAGE_TELEPORT_ACCEPTED_REQUESTER = Message.translation("teleport_requests.commands.tpaccept.success.requester");
-    private static final Message MESSAGE_TELEPORT_HERE_ACCEPTED = Message.translation("teleport_requests.commands.tpaccept.success.tphere_requester");
-    private static final Message MESSAGE_TELEPORT_FAILED = Message.translation("teleport_requests.commands.tpaccept.failed");
+    private static final Message MESSAGE_NO_PENDING_REQUEST = Message.translation("teleport_requests.commands.tpaccept.none").color(new Color(0xff3333));
+    private static final Message MESSAGE_TELEPORT_ACCEPTED = Message.translation("teleport_requests.commands.tpaccept.success.target").color(Color.GREEN);
+    private static final Message MESSAGE_TELEPORT_ACCEPTED_REQUESTER = Message.translation("teleport_requests.commands.tpaccept.success.requester").color(Color.GREEN);
+    private static final Message MESSAGE_TELEPORT_HERE_ACCEPTED = Message.translation("teleport_requests.commands.tpaccept.success.tphere_requester").color(Color.GREEN);
+    private static final Message MESSAGE_TELEPORT_FAILED = Message.translation("teleport_requests.commands.tpaccept.failed").color(new Color(0xff3333));
 
     @Nonnull
     private final OptionalArg<PlayerRef> requesterPlayerArg;

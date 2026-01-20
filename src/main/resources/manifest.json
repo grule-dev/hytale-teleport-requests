@@ -1,12 +1,11 @@
 {
   "Group": "Grule",
   "Name": "TeleportRequests",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "Description": "A Hytale mod to requests teleports.",
   "Authors": [
     {
       "Name": "Grule",
-      "Email": "your.email@example.com",
       "Url": "https://github.com/grule-dev"
     }
   ],

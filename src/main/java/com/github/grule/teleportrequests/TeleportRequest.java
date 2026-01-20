@@ -60,16 +60,19 @@ public class TeleportRequest {
             return false;
         }
 
-        var transform = targetPlayerToTeleport.getTransform();
-        playerToTeleportRef.getStore().putComponent(
-                playerToTeleportRef,
-                Teleport.getComponentType(),
-                new Teleport(
-                        targetPlayerToTeleportRef.getStore().getExternalData().getWorld(),
-                        transform.getPosition(),
-                        transform.getRotation()
-                )
-        );
+        playerToTeleportRef.getStore().getExternalData().getWorld().execute(() -> {
+            var transform = targetPlayerToTeleport.getTransform();
+
+            playerToTeleportRef.getStore().putComponent(
+                    playerToTeleportRef,
+                    Teleport.getComponentType(),
+                    new Teleport(
+                            targetPlayerToTeleportRef.getStore().getExternalData().getWorld(),
+                            transform.getPosition(),
+                            transform.getRotation()
+                    )
+            );
+        });
         executed = true;
         return true;
     }

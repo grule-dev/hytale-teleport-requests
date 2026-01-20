@@ -10,9 +10,9 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -25,11 +25,11 @@ import java.util.logging.Level;
  */
 public class TeleportRequests extends JavaPlugin {
 
-    private static final int REQUEST_TIMEOUT_SECONDS = 60;
+    public static final int REQUEST_TIMEOUT_SECONDS = 30;
     private static final int CLEANUP_INTERVAL_SECONDS = 30;
 
     private static TeleportRequests instance;
-    private final Map<UUID, TeleportRequest> teleportRequests = new HashMap<>();
+    private final Map<UUID, TeleportRequest> teleportRequests = new ConcurrentHashMap<>();
     private ScheduledFuture<Void> cleanupTask;
 
     public TeleportRequests(@Nonnull JavaPluginInit init) {
@@ -72,9 +72,18 @@ public class TeleportRequests extends JavaPlugin {
         teleportRequests.entrySet().removeIf(entry -> entry.getValue().isExpired());
     }
 
-    public void addTeleportRequest(UUID requester, UUID target, TeleportRequest.Type type) {
+    /**
+     * @return If the request was successful or not
+     */
+    public boolean addTeleportRequest(UUID requester, UUID target, TeleportRequest.Type type) {
+        var existingRequest = teleportRequests.get(requester);
+        if (existingRequest != null && !existingRequest.isExpired()) {
+            return false;
+        }
+
         var request = TeleportRequest.create(requester, target, REQUEST_TIMEOUT_SECONDS, type);
         teleportRequests.put(requester, request);
+        return true;
     }
 
     @Nullable
